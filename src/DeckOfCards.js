@@ -18,7 +18,9 @@ function DeckOfCards() {
     isLoading: true
   });
 
-  const [drawnCards, setCard] = useState([]);
+  const [drawnCards, setDrawnCards] = useState([]);
+
+  const [isShuffling, setIsShuffling] = useState(false)
 
   useEffect(function fetchDeckMounted() {
     async function fetchDeck() {
@@ -37,19 +39,32 @@ function DeckOfCards() {
       `${API_URL}/deck/${deck.id}/draw/?count=1`
     );
     const newCard = response.data.cards[0]
-    setCard(cards => [...cards, newCard]);
+    setDrawnCards(cards => [...cards, newCard]);
     if(response.data.remaining === 0) alert("Error: no cards remaining")
   }
 
-  function handleClick() {
+  function handleDraw() {
     drawCard()
+  }
+
+  async function shuffleCards() {
+    setIsShuffling(true)
+    console.log(`${API_URL}/deck/${deck.id}/shuffle/`)
+    await axios.get(`${API_URL}/deck/${deck.id}/shuffle/`);
+    setDrawnCards([])
+    setIsShuffling(false);
+  }
+
+  function handleShuffle() {
+    shuffleCards()
   }
 
   if (deck.isLoading) return <i>Loading...</i>;
 
   return (
     <div>
-      <button onClick={handleClick}>GIMME A CARD</button>
+      <button onClick={handleDraw}>GIMME A CARD</button>
+      <button onClick={handleShuffle} disabled={isShuffling}>Shuffle Deck</button>
       {drawnCards.map(card => <Card key={card.code} card={card}/>)}
     </div>
   );
