@@ -3,6 +3,15 @@ import axios from "axios";
 import Card from "./Card";
 const API_URL = "https://deckofcardsapi.com/api";
 
+/** Simple presentation component for a todo.
+ *
+ * state:
+ * - deck: { id,isLoading}
+ * - drawnCards: [card, card...]
+ *
+ * App -> DeckOfCards -> Card
+ **/
+
 function DeckOfCards() {
   const [deck, setDeck] = useState({
     id: null,

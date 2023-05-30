@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { API_URL } from "./DeckOfCards";
+
+/** Simple presentation component for a todo.
+ *
+ * prop: 
+ * -card: { code,image, images, value, suit }
+ *
+ * DeckOfCards -> Card
+ **/
 
 function Card({ card }){
 
